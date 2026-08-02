@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>還暦 KANREKI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --beni:#A6252B; --beni-deep:#7C1A1F; --kin:#C9A227; --kin-bright:#E4C558;
+  --washi:#F7F1E4; --washi-deep:#EFE6D2; --sumi:#2A2422; --shiro:#FFFDF8;
+  --disp:"Shippori Mincho B1",serif; --body:"Zen Kaku Gothic New",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:var(--body);color:var(--sumi);background:var(--washi);
+  background-image:radial-gradient(circle at 20% 10%,rgba(201,162,39,.07),transparent 40%),
+    radial-gradient(circle at 85% 90%,rgba(166,37,43,.05),transparent 45%);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+}
+.wrap{width:100%;max-width:640px;padding:12px 14px 40px}
+/* ---- header ---- */
+header{display:flex;align-items:center;justify-content:space-between;padding:8px 0 4px}
+.title{display:flex;align-items:center;gap:10px}
+.hanko-title{
+  width:56px;height:56px;border-radius:50%;background:var(--beni);color:var(--shiro);
+  display:flex;align-items:center;justify-content:center;font-family:var(--disp);
+  font-weight:800;font-size:22px;line-height:1.05;text-align:center;
+  box-shadow:0 2px 6px rgba(124,26,31,.35);transform:rotate(-4deg);
+}
+.title h1{font-family:var(--disp);font-size:26px;font-weight:800;letter-spacing:.12em}
+.title small{display:block;font-family:var(--body);font-size:11px;font-weight:500;color:var(--beni);letter-spacing:.3em}
+.hbtns{display:flex;gap:8px}
+.hbtn{
+  border:1.5px solid var(--beni);background:var(--shiro);color:var(--beni);
+  border-radius:8px;padding:6px 10px;font-family:var(--body);font-weight:700;
+  font-size:13px;cursor:pointer;
+}
+.hbtn:hover{background:var(--beni);color:var(--shiro)}
+/* ---- scoreboard ---- */
+.board{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:8px;margin:12px 0;
+}
+.stat{
+  background:var(--shiro);border:1px solid var(--washi-deep);border-radius:10px;
+  padding:8px 6px;text-align:center;box-shadow:0 1px 3px rgba(42,36,34,.05);
+}
+.stat .lbl{font-size:11px;font-weight:500;color:#8a7f6f}
+.stat .val{font-family:var(--disp);font-weight:800;font-size:22px;line-height:1.2}
+.stat.score{border:1.5px solid var(--beni)}
+.stat.score .val{color:var(--beni);font-size:26px}
+.stat.score .max{font-size:10px;color:var(--kin);font-weight:700}
+/* ---- hand ---- */
+.hand{display:flex;gap:8px;justify-content:center;margin:6px 0 14px;flex-wrap:wrap}
+.card{
+  width:64px;height:88px;background:var(--shiro);border:2px solid var(--beni);
+  border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:800;font-size:30px;color:var(--sumi);
+  cursor:pointer;position:relative;box-shadow:0 2px 5px rgba(124,26,31,.15);
+  transition:transform .12s,opacity .15s;user-select:none;
+}
+.card::before{content:"寿";position:absolute;top:4px;left:6px;font-size:10px;color:var(--kin);font-weight:700}
+.card::after{content:"寿";position:absolute;bottom:4px;right:6px;font-size:10px;color:var(--kin);font-weight:700;transform:rotate(180deg)}
+.card:hover{transform:translateY(-4px)}
+.card.used{opacity:.28;pointer-events:none;transform:none}
+/* ---- expression ---- */
+.exprzone{
+  background:var(--shiro);border:1px solid var(--washi-deep);border-radius:12px;
+  padding:12px;display:flex;gap:12px;align-items:center;
+  box-shadow:0 1px 4px rgba(42,36,34,.06);
+}
+.exprtext{
+  flex:1;min-height:44px;font-family:var(--disp);font-weight:700;font-size:22px;
+  letter-spacing:.05em;word-break:break-all;display:flex;align-items:center;flex-wrap:wrap;
+}
+.exprtext .ph{color:#c4b9a5;font-family:var(--body);font-weight:500;font-size:13px}
+.hanko{
+  width:74px;height:74px;min-width:74px;border-radius:50%;border:3px solid var(--beni);
+  color:var(--beni);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:800;transform:rotate(-4deg);transition:all .2s;
+  background:var(--shiro);
+}
+.hanko .v{font-size:22px;line-height:1}
+.hanko .u{font-size:9px;font-family:var(--body);font-weight:700;margin-top:3px;letter-spacing:.1em}
+.hanko.bad{border-color:#c4b9a5;color:#c4b9a5}
+.hanko.hit{
+  background:var(--beni);color:var(--kin-bright);border-color:var(--kin);
+  box-shadow:0 0 0 4px rgba(201,162,39,.35),0 3px 10px rgba(124,26,31,.4);
+  animation:pop .35s;
+}
+@keyframes pop{0%{transform:rotate(-4deg) scale(.85)}60%{transform:rotate(-4deg) scale(1.12)}100%{transform:rotate(-4deg) scale(1)}}
+/* ---- op buttons ---- */
+.ops{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:12px 0}
+.op{
+  padding:12px 0;border-radius:9px;border:1.5px solid var(--sumi);
+  background:var(--shiro);font-family:var(--disp);font-weight:800;font-size:19px;
+  cursor:pointer;color:var(--sumi);
+}
+.op:active{background:var(--sumi);color:var(--shiro)}
+.op.del{border-color:#8a7f6f;color:#8a7f6f;font-size:15px}
+/* ---- actions ---- */
+.actions{display:flex;gap:10px;margin:4px 0 14px}
+.act{
+  flex:1;padding:14px 0;border-radius:11px;font-family:var(--body);font-weight:700;
+  font-size:16px;cursor:pointer;border:none;letter-spacing:.08em;
+}
+.act.go{background:var(--beni);color:var(--shiro);box-shadow:0 3px 8px rgba(124,26,31,.3)}
+.act.go:disabled{background:#d8cfbe;color:#a99e8b;box-shadow:none;cursor:default}
+.act.pass{background:var(--shiro);color:var(--sumi);border:1.5px solid var(--sumi)}
+/* ---- log ---- */
+.logbox{background:var(--shiro);border:1px solid var(--washi-deep);border-radius:12px;padding:10px 14px;max-height:190px;overflow-y:auto}
+.logbox h3{font-size:12px;font-weight:700;color:#8a7f6f;margin-bottom:6px;letter-spacing:.15em}
+.logline{font-size:13.5px;padding:4px 0;border-bottom:1px dashed var(--washi-deep);line-height:1.5}
+.logline:last-child{border-bottom:none}
+.logline .pt{font-family:var(--disp);font-weight:800;color:var(--beni)}
+.logline .mi{color:#8a7f6f}
+.logline .gold{color:var(--kin);font-weight:700}
+/* ---- overlay ---- */
+.overlay{
+  position:fixed;inset:0;background:rgba(42,36,34,.55);display:flex;
+  align-items:center;justify-content:center;padding:20px;z-index:50;
+}
+.panel{
+  background:var(--washi);border-radius:16px;padding:26px 24px;max-width:440px;width:100%;
+  max-height:86vh;overflow-y:auto;box-shadow:0 10px 40px rgba(0,0,0,.3);
+  border-top:6px solid var(--beni);
+}
+.panel h2{font-family:var(--disp);font-weight:800;font-size:24px;text-align:center;margin-bottom:6px;letter-spacing:.15em}
+.panel .rankname{
+  font-family:var(--disp);font-weight:800;font-size:44px;color:var(--beni);
+  text-align:center;margin:10px 0 2px;letter-spacing:.1em;
+}
+.panel .rankage{text-align:center;font-size:13px;color:var(--kin);font-weight:700;margin-bottom:12px}
+.panel .finalscore{text-align:center;font-size:16px;margin-bottom:4px}
+.panel .finalscore b{font-family:var(--disp);font-size:34px;color:var(--beni)}
+.panel .maxnote{text-align:center;font-size:12px;color:#8a7f6f;margin-bottom:16px}
+.panel p,.panel li{font-size:14px;line-height:1.8}
+.panel ul{padding-left:20px;margin:8px 0}
+.panel .close{
+  display:block;margin:16px auto 0;padding:12px 34px;border-radius:10px;border:none;
+  background:var(--beni);color:var(--shiro);font-weight:700;font-size:15px;cursor:pointer;letter-spacing:.1em;
+}
+.rtable{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}
+.rtable td{padding:3px 6px;border-bottom:1px dashed var(--washi-deep)}
+.rtable td:last-child{text-align:right;font-family:var(--disp);font-weight:700;color:var(--beni)}
+.msgflash{
+  position:fixed;left:50%;top:34%;transform:translateX(-50%);
+  background:var(--sumi);color:var(--shiro);padding:12px 22px;border-radius:12px;
+  font-size:14.5px;font-weight:500;z-index:60;max-width:88%;text-align:center;line-height:1.6;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);animation:fadein .25s;
+}
+.msgflash .gold{color:var(--kin-bright);font-weight:700}
+@keyframes fadein{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@media(max-width:430px){
+  .card{width:56px;height:78px;font-size:26px}
+  .board{grid-template-columns:1.4fr 1fr 1fr 1fr;gap:5px}
+  .stat .val{font-size:18px}.stat.score .val{font-size:22px}
+  .ops{grid-template-columns:repeat(8,1fr);gap:4px}
+  .op{font-size:16px;padding:11px 0}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="title">
+      <div class="hanko-title">還<br>暦</div>
+      <div><h1 data-i18n="title">還暦</h1><small data-i18n="subtitle">つくって祝う、六十</small></div>
+    </div>
+    <div class="hbtns">
+      <button class="hbtn" id="btnRules" data-i18n="rules">遊び方</button>
+      <button class="hbtn" id="btnLang">EN</button>
+    </div>
+  </header>
+
+  <div class="board">
+    <div class="stat score">
+      <div class="lbl" data-i18n="score">得点</div>
+      <div class="val" id="stScore">0</div>
+      <div class="max" data-i18n="theoMax">理論最高 180点</div>
+    </div>
+    <div class="stat"><div class="lbl" data-i18n="deck">山札</div><div class="val" id="stDeck">61</div></div>
+    <div class="stat"><div class="lbl" data-i18n="won">獲得</div><div class="val" id="stWon">0</div></div>
+    <div class="stat"><div class="lbl" data-i18n="discard">捨て札</div><div class="val" id="stDis">0</div></div>
+  </div>
+
+  <div class="hand" id="hand"></div>
+
+  <div class="exprzone">
+    <div class="exprtext" id="exprText"><span class="ph" data-i18n="phExpr">カードと記号をタップして 60 を作ろう</span></div>
+    <div class="hanko bad" id="hanko"><div class="v">—</div><div class="u" data-i18n="nowVal">現在値</div></div>
+  </div>
+
+  <div class="ops">
+    <button class="op" data-op="+">＋</button>
+    <button class="op" data-op="-">−</button>
+    <button class="op" data-op="*">×</button>
+    <button class="op" data-op="/">÷</button>
+    <button class="op" data-op="(">（</button>
+    <button class="op" data-op=")">）</button>
+    <button class="op del" id="btnBack">⌫</button>
+    <button class="op del" id="btnClear" data-i18n="clear">消</button>
+  </div>
+
+  <div class="actions">
+    <button class="act go" id="btnGo" disabled data-i18n="make60">この式で 60！</button>
+    <button class="act pass" id="btnPass" data-i18n="pass">パス（−5点）</button>
+  </div>
+
+  <div class="logbox">
+    <h3 data-i18n="history">記録</h3>
+    <div id="log"></div>
+  </div>
+</div>
+
+<div class="overlay" id="rulesOv" style="display:none">
+  <div class="panel">
+    <h2 data-i18n="rulesTitle">遊び方</h2>
+    <div id="rulesBody"></div>
+    <button class="close" id="rulesClose" data-i18n="close">とじる</button>
+  </div>
+</div>
+
+<div class="overlay" id="endOv" style="display:none">
+  <div class="panel">
+    <h2 data-i18n="gameover">ゲーム終了</h2>
+    <div class="rankname" id="endRank"></div>
+    <div class="rankage" id="endRankAge"></div>
+    <div class="finalscore"><span data-i18n="finalScore">最終得点</span> <b id="endScore"></b> <span data-i18n="pts">点</span></div>
+    <div class="maxnote" data-i18n="maxNote">（理論上の最高得点：180点）</div>
+    <div id="endDetail" style="font-size:13.5px;text-align:center;color:#5a5044;line-height:1.8"></div>
+    <button class="close" id="btnAgain" data-i18n="again">もう一度遊ぶ</button>
+  </div>
+</div>
+
+<script>
+/* ================= 還暦 KANREKI ================= */
+/* ---- 有理数演算 ---- */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a||1;}
+function frac(n,d){d=d===undefined?1:d;if(d<0){n=-n;d=-d;}var g=gcd(n,d);return [n/g,d/g];}
+var R={
+  add:function(a,b){return frac(a[0]*b[1]+b[0]*a[1],a[1]*b[1]);},
+  sub:function(a,b){return frac(a[0]*b[1]-b[0]*a[1],a[1]*b[1]);},
+  mul:function(a,b){return frac(a[0]*b[0],a[1]*b[1]);},
+  div:function(a,b){return b[0]===0?null:frac(a[0]*b[1],a[1]*b[0]);}
+};
+/* ---- 式評価（再帰下降パーサ） ---- */
+function evalTokens(tokens){
+  var pos=0;
+  function peek(){return tokens[pos];}
+  function expr(){
+    var v=term(); if(!v)return null;
+    while(peek()&&peek().t==='op'&&(peek().v==='+'||peek().v==='-')){
+      var op=tokens[pos++].v, r=term(); if(!r)return null;
+      v=op==='+'?R.add(v,r):R.sub(v,r);
+    }
+    return v;
+  }
+  function term(){
+    var v=factor(); if(!v)return null;
+    while(peek()&&peek().t==='op'&&(peek().v==='*'||peek().v==='/')){
+      var op=tokens[pos++].v, r=factor(); if(!r)return null;
+      v=op==='*'?R.mul(v,r):R.div(v,r); if(!v)return null;
+    }
+    return v;
+  }
+  function factor(){
+    var tk=peek(); if(!tk)return null;
+    if(tk.t==='num'){pos++;return frac(tk.v);}
+    if(tk.t==='('){pos++;var v=expr();if(!v)return null;if(!peek()||peek().t!==')')return null;pos++;return v;}
+    return null;
+  }
+  if(tokens.length===0)return {ok:false};
+  var v=expr();
+  if(!v||pos!==tokens.length)return {ok:false};
+  return {ok:true,val:v};
+}
+/* ---- ソルバー（パス時の答え合わせ用） ---- */
+function solveHand(hand,target){
+  target=target||60;
+  function search(items){
+    if(items.length===1)return (items[0].v[0]===target&&items[0].v[1]===1)?items[0].e:null;
+    for(var i=0;i<items.length;i++)for(var j=i+1;j<items.length;j++){
+      var a=items[i],b=items[j],rest=[],k;
+      for(k=0;k<items.length;k++)if(k!==i&&k!==j)rest.push(items[k]);
+      var cs=[{v:R.add(a.v,b.v),e:'('+a.e+'+'+b.e+')'},{v:R.mul(a.v,b.v),e:'('+a.e+'×'+b.e+')'},
+        {v:R.sub(a.v,b.v),e:'('+a.e+'−'+b.e+')'},{v:R.sub(b.v,a.v),e:'('+b.e+'−'+a.e+')'}];
+      var d1=R.div(a.v,b.v);if(d1)cs.push({v:d1,e:'('+a.e+'÷'+b.e+')'});
+      var d2=R.div(b.v,a.v);if(d2)cs.push({v:d2,e:'('+b.e+'÷'+a.e+')'});
+      for(k=0;k<cs.length;k++){var r=search(rest.concat([cs[k]]));if(r)return r;}
+    }
+    return null;
+  }
+  var n=hand.length;
+  for(var size=2;size<=Math.min(5,n);size++){
+    var combos=[];
+    (function rec(s,cur){if(cur.length===size){combos.push(cur.slice());return;}for(var i=s;i<n;i++){cur.push(i);rec(i+1,cur);cur.pop();}})(0,[]);
+    for(var c=0;c<combos.length;c++){
+      var items=combos[c].map(function(i){return {v:frac(hand[i]),e:String(hand[i])};});
+      var r=search(items);
+      if(r)return r;
+    }
+  }
+  return null;
+}
+/* ---- 得点表 ---- */
+var SCORE={2:2, 3:4.5, 4:8, 5:15};
+var THEO_MAX=180;
+/* ---- 長寿祝いランク ---- */
+var RANKS=[
+  [180,{ja:"満点大還暦",en:"Perfect Daikanreki"},{ja:"完璧！百二十歳の祝い",en:"Flawless! The 120-year crown"}],
+  [160,{ja:"大還暦",en:"Daikanreki"},{ja:"百二十歳の祝い",en:"120th celebration"}],
+  [140,{ja:"茶寿",en:"Chaju"},{ja:"百八歳の祝い",en:"108th celebration"}],
+  [120,{ja:"白寿",en:"Hakuju"},{ja:"九十九歳の祝い",en:"99th celebration"}],
+  [100,{ja:"米寿",en:"Beiju"},{ja:"八十八歳の祝い",en:"88th celebration"}],
+  [85,{ja:"傘寿",en:"Sanju"},{ja:"八十歳の祝い",en:"80th celebration"}],
+  [70,{ja:"喜寿",en:"Kiju"},{ja:"七十七歳の祝い",en:"77th celebration"}],
+  [60,{ja:"祝 還暦",en:"Kanreki!"},{ja:"六十歳の祝い、達成！",en:"The 60th celebration — achieved!"}],
+  [30,{ja:"知命",en:"Chimei"},{ja:"五十歳。還暦まであと少し",en:"Age 50. Kanreki is near"}],
+  [-9999,{ja:"不惑",en:"Fuwaku"},{ja:"四十歳。次はきっと届く",en:"Age 40. Next time for sure"}]
+];
+/* ---- 多言語 ---- */
+var I18N={
+  ja:{
+    title:"還暦", subtitle:"つくって祝う、六十", rules:"遊び方",
+    score:"得点", deck:"山札", won:"獲得", discard:"捨て札",
+    theoMax:"理論最高 180点", phExpr:"カードと記号をタップして 60 を作ろう",
+    nowVal:"現在値", clear:"消", make60:"この式で 60！", pass:"パス（−5点）",
+    endDeck:"ゲームを終える", history:"記録", close:"とじる",
+    rulesTitle:"遊び方", gameover:"ゲーム終了", finalScore:"最終得点", pts:"点",
+    maxNote:"（理論上の最高得点：180点）", again:"もう一度遊ぶ",
+    invalid:"式が未完成", made:"60！", plusPts:"点獲得！",
+    passDone:"パスしました（−5点）",
+    passCould:"実は作れました！ 例：", passRight:"お見事な判断！この5枚では本当に作れませんでした",
+    logPass:"パス", logEnd:"── 山札が尽きました ──",
+    detailCombos:"作った式", detailPasses:"パス", detailTimes:"回",
+    confirmPass:"この5枚を捨てて −5点。よろしいですか？",
+    endNoPenalty:"残りの札を置いてゲームを終えます。よろしいですか？"
+  },
+  en:{
+    title:"KANREKI", subtitle:"Make 60. Celebrate.", rules:"How to play",
+    score:"Score", deck:"Deck", won:"Won", discard:"Discard",
+    theoMax:"Theoretical max 180", phExpr:"Tap cards & symbols to make 60",
+    nowVal:"VALUE", clear:"C", make60:"Make 60!", pass:"Pass (−5)",
+    endDeck:"End game", history:"Log", close:"Close",
+    rulesTitle:"How to play", gameover:"Game Over", finalScore:"Final score", pts:"pts",
+    maxNote:"(Theoretical maximum: 180 pts)", again:"Play again",
+    invalid:"Incomplete", made:"60!", plusPts:"pts!",
+    passDone:"Passed (−5 pts)",
+    passCould:"It was actually possible! e.g. ", passRight:"Great call! 60 truly could not be made from those 5 cards",
+    logPass:"Pass", logEnd:"── Deck exhausted ──",
+    detailCombos:"Expressions made", detailPasses:"Passes", detailTimes:"",
+    confirmPass:"Discard these 5 cards for −5 points. OK?",
+    endNoPenalty:"End the game with the remaining cards. OK?"
+  }
+};
+var RULES_HTML={
+  ja:'<p>「還暦」は、数字カードで <b>60</b> を作りつづける一人用のお祝いゲームです。</p>'
+    +'<ul>'
+    +'<li>山札は <b>0〜60</b> の <b>61枚</b>。手札はいつも5枚。</li>'
+    +'<li>手札から <b>2〜5枚</b> を選び、<b>＋ − × ÷ と括弧</b>で <b>60</b> になる式を作ります。途中の値は分数になってもOK。</li>'
+    +'<li>成功すると使ったカードは獲得札に。得点は使った枚数で決まります。</li>'
+    +'</ul>'
+    +'<table class="rtable">'
+    +'<tr><td>2枚で60</td><td>2点</td></tr>'
+    +'<tr><td>3枚で60（1.5倍）</td><td>4.5点</td></tr>'
+    +'<tr><td>4枚で60（2倍）</td><td>8点</td></tr>'
+    +'<tr><td>5枚で60（3倍）</td><td>15点</td></tr>'
+    +'</table>'
+    +'<ul>'
+    +'<li>手札が減ったら、山札から5枚になるまで補充します。</li>'
+    +'<li>どうしても作れないときは<b>パス</b>。手札5枚は捨て札になり <b>−5点</b>。パスのあと、本当に作れなかったか答え合わせが出ます。</li>'
+    +'<li>山札が尽きたら、残りの手札で作れるだけ作って終了（終了ボタンは減点なし）。</li>'
+    +'<li><b>理論上の最高得点は180点</b>（5枚コンボ×12回。61枚のうち60枚を使い切れます）。</li>'
+    +'<li>得点に応じて、長寿のお祝いの称号が贈られます。<b>60点で「祝 還暦」</b>！</li>'
+    +'</ul>',
+  en:'<p><b>KANREKI</b> (60th birthday) is a solitaire celebration game: keep making <b>60</b> from number cards.</p>'
+    +'<ul>'
+    +'<li>The deck has <b>61 cards</b>: numbers <b>0–60</b>. Your hand always holds 5.</li>'
+    +'<li>Pick <b>2–5 cards</b> and build an expression equal to <b>60</b> using <b>+ − × ÷ and parentheses</b>. Fractions along the way are fine.</li>'
+    +'<li>Success! Used cards are yours. Points depend on how many you used:</li>'
+    +'</ul>'
+    +'<table class="rtable">'
+    +'<tr><td>2 cards</td><td>2 pts</td></tr>'
+    +'<tr><td>3 cards (×1.5)</td><td>4.5 pts</td></tr>'
+    +'<tr><td>4 cards (×2)</td><td>8 pts</td></tr>'
+    +'<tr><td>5 cards (×3)</td><td>15 pts</td></tr>'
+    +'</table>'
+    +'<ul>'
+    +'<li>Your hand refills to 5 from the deck.</li>'
+    +'<li>Stuck? <b>Pass</b>: all 5 cards are discarded and you lose <b>5 pts</b>. After passing, the game reveals whether 60 was truly impossible.</li>'
+    +'<li>When the deck runs out, keep playing your remaining hand, then end (the End button has no penalty).</li>'
+    +'<li><b>The theoretical maximum is 180 pts</b> (twelve 5-card combos — 60 of the 61 cards can be used).</li>'
+    +'<li>Your score earns a Japanese longevity title. <b>60 pts = Kanreki!</b></li>'
+    +'</ul>'
+};
+/* ---- 状態 ---- */
+var lang=(navigator.languages&&navigator.languages[0]||navigator.language||"ja").slice(0,2)==="ja"?"ja":"en";
+var deck=[], hand=[], tokens=[], score=0, wonCount=0, disCount=0, comboCount=0, passCount=0, over=false;
+function T(k){return I18N[lang][k];}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function newGame(){
+  deck=shuffle(Array.apply(null,{length:61}).map(function(_,i){return i;}));
+  hand=[];tokens=[];score=0;wonCount=0;disCount=0;comboCount=0;passCount=0;over=false;
+  document.getElementById("log").innerHTML="";
+  document.getElementById("endOv").style.display="none";
+  refill();render();
+}
+function refill(){
+  while(hand.length<5&&deck.length>0)hand.push({n:deck.pop(),used:false});
+  checkAutoEnd();
+}
+function checkAutoEnd(){
+  if(deck.length===0&&hand.length<2&&!over)endGame();
+}
+function usedCount(){return tokens.filter(function(t){return t.t==='num';}).length;}
+/* ---- 描画 ---- */
+function fracStr(v){
+  if(v[1]===1)return String(v[0]);
+  if(v[1]<=999)return v[0]+"/"+v[1];
+  return (v[0]/v[1]).toFixed(2);
+}
+function exprString(){
+  return tokens.map(function(t){
+    if(t.t==='num')return t.v;
+    if(t.t==='op')return {"+":"＋","-":"−","*":"×","/":"÷"}[t.v];
+    return t.t==='('?"（":"）";
+  }).join("");
+}
+function render(){
+  document.getElementById("stScore").textContent=(score%1===0)?score:score.toFixed(1);
+  document.getElementById("stDeck").textContent=deck.length;
+  document.getElementById("stWon").textContent=wonCount;
+  document.getElementById("stDis").textContent=disCount;
+  var h=document.getElementById("hand");h.innerHTML="";
+  hand.forEach(function(c,i){
+    var d=document.createElement("div");
+    d.className="card"+(c.used?" used":"");
+    d.textContent=c.n;
+    d.onclick=function(){tapCard(i);};
+    h.appendChild(d);
+  });
+  var et=document.getElementById("exprText");
+  if(tokens.length===0){et.innerHTML='<span class="ph">'+T("phExpr")+'</span>';}
+  else{et.textContent=exprString();}
+  var hk=document.getElementById("hanko");
+  var res=evalTokens(tokens);
+  var vEl=hk.querySelector(".v");
+  var nCards=usedCount();
+  if(!res.ok){hk.className="hanko bad";vEl.textContent="—";vEl.style.fontSize="22px";}
+  else{
+    var is60=(res.val[0]===60&&res.val[1]===1);
+    hk.className="hanko"+(is60&&nCards>=2?" hit":"");
+    var s=fracStr(res.val);
+    vEl.textContent=s;
+    vEl.style.fontSize=(s.length>6)?"13px":(s.length>3)?"17px":"22px";
+  }
+  document.getElementById("btnGo").disabled=!(res.ok&&res.val[0]===60&&res.val[1]===1&&nCards>=2&&nCards<=5);
+  var pb=document.getElementById("btnPass");
+  pb.textContent=(deck.length===0)?T("endDeck"):T("pass");
+}
+/* ---- 操作 ---- */
+function tapCard(i){
+  if(hand[i].used||over)return;
+  var last=tokens[tokens.length-1];
+  if(last&&(last.t==='num'||last.t===')'))return; // 数字の連続は不可
+  tokens.push({t:'num',v:hand[i].n,hi:i});
+  hand[i].used=true;
+  render();
+}
+function tapOp(op){
+  if(over)return;
+  var last=tokens[tokens.length-1];
+  if(op==='('){
+    if(last&&(last.t==='num'||last.t===')'))return;
+    tokens.push({t:'('});
+  }else if(op===')'){
+    if(!last||last.t==='op'||last.t==='(')return;
+    var bal=0;tokens.forEach(function(t){if(t.t==='(')bal++;if(t.t===')')bal--;});
+    if(bal<=0)return;
+    tokens.push({t:')'});
+  }else{
+    if(!last||last.t==='op'||last.t==='(')return;
+    tokens.push({t:'op',v:op});
+  }
+  render();
+}
+function back(){
+  if(over)return;
+  var t=tokens.pop();
+  if(t&&t.t==='num'&&hand[t.hi])hand[t.hi].used=false;
+  render();
+}
+function clearExpr(){
+  if(over)return;
+  tokens=[];hand.forEach(function(c){c.used=false;});render();
+}
+function flash(html,ms){
+  var d=document.createElement("div");d.className="msgflash";d.innerHTML=html;
+  document.body.appendChild(d);
+  setTimeout(function(){d.remove();},ms||2600);
+}
+function addLog(html){
+  var d=document.createElement("div");d.className="logline";d.innerHTML=html;
+  var box=document.getElementById("log");box.insertBefore(d,box.firstChild);
+}
+function submit(){
+  if(over)return;
+  var res=evalTokens(tokens);
+  var n=usedCount();
+  if(!(res.ok&&res.val[0]===60&&res.val[1]===1&&n>=2&&n<=5))return;
+  var pts=SCORE[n];
+  score+=pts; comboCount++; wonCount+=n;
+  addLog('<span class="pt">＋'+(pts%1===0?pts:pts.toFixed(1))+'</span>　'+exprString()+' ＝ 60　<span class="mi">('+n+(lang==='ja'?'枚':' cards')+')</span>');
+  flash('<span class="gold">'+T("made")+'</span> ＋'+(pts%1===0?pts:pts.toFixed(1))+' '+T("plusPts"),1800);
+  // 使ったカードを取り除く
+  hand=hand.filter(function(c){return !c.used;});
+  tokens=[];
+  refill();render();
+  if(deck.length===0&&hand.length<2)endGame();
+}
+function passOrEnd(){
+  if(over)return;
+  if(deck.length===0){
+    if(confirm(T("endNoPenalty")))endGame();
+    return;
+  }
+  if(!confirm(T("confirmPass")))return;
+  var nums=hand.map(function(c){return c.n;});
+  var sol=solveHand(nums,60);
+  score-=5; passCount++; disCount+=hand.length;
+  addLog('<span class="pt">−5</span>　'+T("logPass")+'：['+nums.join("・")+']');
+  if(sol){flash(T("passDone")+'<br><span class="gold">'+T("passCould")+sol+' = 60</span>',4200);}
+  else{flash(T("passDone")+'<br><span class="gold">'+T("passRight")+'</span>',3600);}
+  hand=[];tokens=[];
+  refill();render();
+}
+function rankFor(s){
+  for(var i=0;i<RANKS.length;i++)if(s>=RANKS[i][0])return RANKS[i];
+  return RANKS[RANKS.length-1];
+}
+function endGame(){
+  over=true;
+  var r=rankFor(score);
+  document.getElementById("endRank").textContent=r[1][lang];
+  document.getElementById("endRankAge").textContent=r[2][lang];
+  document.getElementById("endScore").textContent=(score%1===0)?score:score.toFixed(1);
+  document.getElementById("endDetail").textContent=
+    T("detailCombos")+"："+comboCount+"　／　"+T("detailPasses")+"："+passCount+(lang==='ja'?"回":"");
+  document.getElementById("endOv").style.display="flex";
+}
+/* ---- i18n適用 ---- */
+function applyLang(){
+  document.documentElement.lang=lang;
+  var els=document.querySelectorAll("[data-i18n]");
+  for(var i=0;i<els.length;i++){var k=els[i].getAttribute("data-i18n");if(I18N[lang][k])els[i].textContent=I18N[lang][k];}
+  document.getElementById("btnLang").textContent=(lang==="ja")?"EN":"日本語";
+  document.getElementById("rulesBody").innerHTML=RULES_HTML[lang];
+  render();
+  if(over){var r=rankFor(score);
+    document.getElementById("endRank").textContent=r[1][lang];
+    document.getElementById("endRankAge").textContent=r[2][lang];
+    document.getElementById("endDetail").textContent=T("detailCombos")+"："+comboCount+"　／　"+T("detailPasses")+"："+passCount+(lang==='ja'?"回":"");
+  }
+}
+/* ---- イベント ---- */
+document.querySelectorAll(".op[data-op]").forEach(function(b){b.onclick=function(){tapOp(b.getAttribute("data-op"));};});
+document.getElementById("btnBack").onclick=back;
+document.getElementById("btnClear").onclick=clearExpr;
+document.getElementById("btnGo").onclick=submit;
+document.getElementById("btnPass").onclick=passOrEnd;
+document.getElementById("btnLang").onclick=function(){lang=(lang==="ja")?"en":"ja";applyLang();};
+document.getElementById("btnRules").onclick=function(){document.getElementById("rulesOv").style.display="flex";};
+document.getElementById("rulesClose").onclick=function(){document.getElementById("rulesOv").style.display="none";};
+document.getElementById("btnAgain").onclick=newGame;
+/* ---- 開始 ---- */
+applyLang();
+newGame();
+</script>
+</body>
+</html>
