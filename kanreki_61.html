@@ -181,7 +181,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:8px
       <div class="val" id="stScore">0</div>
       <div class="max" data-i18n="theoMax">理論最高 180点</div>
     </div>
-    <div class="stat"><div class="lbl" data-i18n="deck">山札</div><div class="val" id="stDeck">60</div></div>
+    <div class="stat"><div class="lbl" data-i18n="deck">山札</div><div class="val" id="stDeck">61</div></div>
     <div class="stat"><div class="lbl" data-i18n="won">獲得</div><div class="val" id="stWon">0</div></div>
     <div class="stat"><div class="lbl" data-i18n="discard">捨て札</div><div class="val" id="stDis">0</div></div>
   </div>
@@ -359,7 +359,7 @@ var I18N={
 var RULES_HTML={
   ja:'<p>「還暦」は、数字カードで <b>60</b> を作りつづける一人用のお祝いゲームです。</p>'
     +'<ul>'
-    +'<li>山札は <b>1〜60</b> の <b>60枚</b>。暦（六十干支）の一巡りです。手札はいつも5枚。</li>'
+    +'<li>山札は <b>0〜60</b> の <b>61枚</b>。手札はいつも5枚。</li>'
     +'<li>手札から <b>2〜5枚</b> を選び、<b>＋ − × ÷ と括弧</b>で <b>60</b> になる式を作ります。途中の値は分数になってもOK。</li>'
     +'<li>成功すると使ったカードは獲得札に。得点は使った枚数で決まります。</li>'
     +'</ul>'
@@ -373,12 +373,12 @@ var RULES_HTML={
     +'<li>手札が減ったら、山札から5枚になるまで補充します。</li>'
     +'<li>どうしても作れないときは<b>パス</b>。手札5枚は捨て札になり <b>−5点</b>。パスのあと、本当に作れなかったか答え合わせが出ます。</li>'
     +'<li>山札が尽きたら、残りの手札で作れるだけ作って終了（終了ボタンは減点なし）。</li>'
-    +'<li><b>理論上の最高得点は180点</b>（5枚コンボ×12回で、60枚すべてを使い切れます）。</li>'
+    +'<li><b>理論上の最高得点は180点</b>（5枚コンボ×12回。61枚のうち60枚を使い切れます）。</li>'
     +'<li>得点に応じて、長寿のお祝いの称号が贈られます。<b>60点で「祝 還暦」</b>！</li>'
     +'</ul>',
   en:'<p><b>KANREKI</b> (60th birthday) is a solitaire celebration game: keep making <b>60</b> from number cards.</p>'
     +'<ul>'
-    +'<li>The deck has <b>60 cards</b>: numbers <b>1–60</b> — one full cycle of the traditional 60-year calendar. Your hand always holds 5.</li>'
+    +'<li>The deck has <b>61 cards</b>: numbers <b>0–60</b>. Your hand always holds 5.</li>'
     +'<li>Pick <b>2–5 cards</b> and build an expression equal to <b>60</b> using <b>+ − × ÷ and parentheses</b>. Fractions along the way are fine.</li>'
     +'<li>Success! Used cards are yours. Points depend on how many you used:</li>'
     +'</ul>'
@@ -392,7 +392,7 @@ var RULES_HTML={
     +'<li>Your hand refills to 5 from the deck.</li>'
     +'<li>Stuck? <b>Pass</b>: all 5 cards are discarded and you lose <b>5 pts</b>. After passing, the game reveals whether 60 was truly impossible.</li>'
     +'<li>When the deck runs out, keep playing your remaining hand, then end (the End button has no penalty).</li>'
-    +'<li><b>The theoretical maximum is 180 pts</b> (twelve 5-card combos, using all 60 cards — a perfect sweep).</li>'
+    +'<li><b>The theoretical maximum is 180 pts</b> (twelve 5-card combos — 60 of the 61 cards can be used).</li>'
     +'<li>Your score earns a Japanese longevity title. <b>60 pts = Kanreki!</b></li>'
     +'</ul>'
 };
@@ -402,7 +402,7 @@ var deck=[], hand=[], tokens=[], score=0, wonCount=0, disCount=0, comboCount=0, 
 function T(k){return I18N[lang][k];}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
 function newGame(){
-  deck=shuffle(Array.apply(null,{length:60}).map(function(_,i){return i+1;}));
+  deck=shuffle(Array.apply(null,{length:61}).map(function(_,i){return i;}));
   hand=[];tokens=[];score=0;wonCount=0;disCount=0;comboCount=0;passCount=0;over=false;
   document.getElementById("log").innerHTML="";
   document.getElementById("endOv").style.display="none";
