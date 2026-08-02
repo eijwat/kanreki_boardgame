@@ -21,7 +21,7 @@
    - 途中の計算は分数になってもかまいません（例：45 ÷ 30 × 40 = 60）。
 3. 手札が減ったら、山札から 5 枚になるまで補充されます。
 4. どうしても作れないときは**パス**。手札 5 枚は捨て札になり **−5点**。パスの後には「本当に作れなかったか」の答え合わせが表示されます。
-5. 山札が尽きたら、残りの手札で作れるだけ作って終了です（終了ボタンは減点なし）。
+5. 山札が尽きたら、残りの手札で作れるだけ作って終了です。**余った手札は捨て札になり、1枚につき−1点**。手札を使い切れば減点なし——ゲームが終わると、獲得札＋捨て札はちょうど60枚。暦がきれいに一巡します。
 
 ### 得点
 
@@ -32,6 +32,7 @@
 | 4枚 | 2倍 | **8点** |
 | 5枚 | 3倍 | **15点** |
 | パス | — | **−5点** |
+| 終了時の余り札 | — | **1枚につき−1点** |
 
 ### 理論上の最高得点：180点 —— 一枚も余らない完全勝利
 
@@ -65,7 +66,8 @@
 ### ちょっとした戦略メモ
 
 - 手札の約 **96%** は 60 が作れます。パスする前に、もうひと粘り。
-- 自動プレイのシミュレーションでは、2枚コンボ優先の手堅い戦略で平均約100点、5枚コンボ狙いの欲張り戦略で平均約108点（最高140点）でした。理論最高の180点までは、まだまだ上達の余地があります。
+- 自動プレイのシミュレーションでは、2枚コンボ優先の手堅い戦略で平均約97点、5枚コンボ狙いの欲張り戦略で平均約106点（余り札は平均約2枚）でした。理論最高の180点までは、まだまだ上達の余地があります。
+- 終盤は「残りの手札を使い切れるか」の詰めパズル。最後の1組まで気が抜けません。
 - 5枚コンボ（15点）は 2枚コンボ（2点）の 7.5 倍。大きい組み合わせを狙う勇気が高得点への道です。
 
 ### GitHub Pages
@@ -87,7 +89,7 @@
    - Fractions along the way are fine (e.g. 45 ÷ 30 × 40 = 60).
 3. Your hand refills to 5 from the deck.
 4. Stuck? **Pass**: all 5 cards are discarded and you lose **5 points**. After passing, the game reveals whether 60 was truly impossible.
-5. When the deck runs out, play what you can from your remaining hand, then end (the End button has no penalty).
+5. When the deck runs out, play what you can from your remaining hand, then end. **Leftover cards are discarded at −1 point each** — use them all for no penalty. Either way, won cards + discards always total exactly 60: the calendar comes full circle.
 
 ### Scoring
 
@@ -98,6 +100,7 @@
 | 4 | ×2 | **8** |
 | 5 | ×3 | **15** |
 | Pass | — | **−5** |
+| Leftover at end | — | **−1 each** |
 
 ### Theoretical maximum: 180 points — a perfect sweep
 
@@ -110,8 +113,10 @@ Your final score earns a Japanese longevity-celebration title. **Exactly 60 poin
 ### Strategy notes
 
 - About **96%** of hands can make 60 — think twice before passing.
-- In simulations, a cautious 2-card-first strategy averaged ~100 points and a greedy 5-card-first strategy ~108 (best: 140). The 180-point ceiling leaves plenty of room to grow.
+- In simulations, a cautious 2-card-first strategy averaged ~97 points and a greedy 5-card-first strategy ~106 (with ~2 leftover cards on average). The 180-point ceiling leaves plenty of room to grow.
+- The endgame becomes a use-them-all puzzle: can you empty your hand before the calendar closes?
 - A 5-card combo (15 pts) is worth 7.5 times a 2-card combo (2 pts). Courage pays.
+
 
 ### GitHub Pages
 
