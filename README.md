@@ -68,6 +68,10 @@
 - 自動プレイのシミュレーションでは、2枚コンボ優先の手堅い戦略で平均約91点、5枚コンボ狙いで平均約97点でした。理論最高の180点までは、まだまだ上達の余地があります。
 - 5枚コンボ（15点）は 2枚コンボ（2点）の 7.5 倍。大きい組み合わせを狙う勇気が高得点への道です。
 
+### GitHub Pages
+
+<a href="https://eijwat.github.io/kanreki_boardgame/" target="_blank">還暦ボードゲーム</a>
+
 ---
 
 ## English
@@ -108,6 +112,10 @@ Your final score earns a Japanese longevity-celebration title. **Exactly 60 poin
 - About **93%** of hands can make 60 — think twice before passing.
 - In simulations, a cautious 2-card-first strategy averaged ~91 points and a greedy 5-card-first strategy ~97 points. The 180-point ceiling leaves plenty of room to grow.
 - A 5-card combo (15 pts) is worth 7.5 times a 2-card combo (2 pts). Courage pays.
+
+### GitHub Pages
+
+<a href="https://eijwat.github.io/kanreki_boardgame/" target="_blank">The Kanreki Boardgame</a>
 
 ---
 
