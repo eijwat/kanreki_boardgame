@@ -334,11 +334,10 @@ var I18N={
     invalid:"式が未完成", made:"60！", plusPts:"点獲得！",
     passDone:"パスしました（−5点）",
     passCould:"実は作れました！ 例：", passRight:"お見事な判断！この5枚では本当に作れませんでした",
-    logPass:"パス", logEnd:"── 山札が尽きました ──", leftLog:"余り札",
+    logPass:"パス", logEnd:"── 山札が尽きました ──",
     detailCombos:"作った式", detailPasses:"パス", detailTimes:"回",
     confirmPass:"この5枚を捨てて −5点。よろしいですか？",
-    endConfirm:"残りの手札{n}枚は捨て札になり −{n}点。ゲームを終えますか？",
-    endConfirmZero:"手札を使い切りました！減点なしでゲームを終えます。"
+    endNoPenalty:"残りの札を置いてゲームを終えます。よろしいですか？"
   },
   en:{
     title:"KANREKI", subtitle:"Make 60. Celebrate.", rules:"How to play",
@@ -351,11 +350,10 @@ var I18N={
     invalid:"Incomplete", made:"60!", plusPts:"pts!",
     passDone:"Passed (−5 pts)",
     passCould:"It was actually possible! e.g. ", passRight:"Great call! 60 truly could not be made from those 5 cards",
-    logPass:"Pass", logEnd:"── Deck exhausted ──", leftLog:"Leftover",
+    logPass:"Pass", logEnd:"── Deck exhausted ──",
     detailCombos:"Expressions made", detailPasses:"Passes", detailTimes:"",
     confirmPass:"Discard these 5 cards for −5 points. OK?",
-    endConfirm:"Your remaining {n} card(s) will be discarded for −{n} pts. End the game?",
-    endConfirmZero:"You used every card! Ending with no penalty."
+    endNoPenalty:"End the game with the remaining cards. OK?"
   }
 };
 var RULES_HTML={
@@ -374,7 +372,7 @@ var RULES_HTML={
     +'<ul>'
     +'<li>手札が減ったら、山札から5枚になるまで補充します。</li>'
     +'<li>どうしても作れないときは<b>パス</b>。手札5枚は捨て札になり <b>−5点</b>。パスのあと、本当に作れなかったか答え合わせが出ます。</li>'
-    +'<li>山札が尽きたら、残りの手札で作れるだけ作って終了。<b>余った手札は捨て札になり、1枚につき−1点</b>。手札を使い切れば減点なし！</li>'
+    +'<li>山札が尽きたら、残りの手札で作れるだけ作って終了（終了ボタンは減点なし）。</li>'
     +'<li><b>理論上の最高得点は180点</b>（5枚コンボ×12回で、60枚すべてを使い切れます）。</li>'
     +'<li>得点に応じて、長寿のお祝いの称号が贈られます。<b>60点で「祝 還暦」</b>！</li>'
     +'</ul>',
@@ -393,7 +391,7 @@ var RULES_HTML={
     +'<ul>'
     +'<li>Your hand refills to 5 from the deck.</li>'
     +'<li>Stuck? <b>Pass</b>: all 5 cards are discarded and you lose <b>5 pts</b>. After passing, the game reveals whether 60 was truly impossible.</li>'
-    +'<li>When the deck runs out, keep playing your remaining hand, then end. <b>Leftover cards are discarded at −1 point each</b> — use them all for no penalty!</li>'
+    +'<li>When the deck runs out, keep playing your remaining hand, then end (the End button has no penalty).</li>'
     +'<li><b>The theoretical maximum is 180 pts</b> (twelve 5-card combos, using all 60 cards — a perfect sweep).</li>'
     +'<li>Your score earns a Japanese longevity title. <b>60 pts = Kanreki!</b></li>'
     +'</ul>'
@@ -461,7 +459,7 @@ function render(){
   }
   document.getElementById("btnGo").disabled=!(res.ok&&res.val[0]===60&&res.val[1]===1&&nCards>=2&&nCards<=5);
   var pb=document.getElementById("btnPass");
-  pb.textContent=(deck.length===0)?(T("endDeck")+(hand.length>0?"（−"+hand.length+"）":"")):T("pass");
+  pb.textContent=(deck.length===0)?T("endDeck"):T("pass");
 }
 /* ---- 操作 ---- */
 function tapCard(i){
@@ -526,9 +524,7 @@ function submit(){
 function passOrEnd(){
   if(over)return;
   if(deck.length===0){
-    var n=hand.length;
-    if(n===0){endGame();return;}
-    if(confirm(T("endConfirm").split("{n}").join(n)))endGame();
+    if(confirm(T("endNoPenalty")))endGame();
     return;
   }
   if(!confirm(T("confirmPass")))return;
@@ -546,16 +542,7 @@ function rankFor(s){
   return RANKS[RANKS.length-1];
 }
 function endGame(){
-  if(over)return;
   over=true;
-  // 余り札の処理: 1枚につき−1点、捨て札へ(獲得＋捨て札＝60枚になる)
-  if(hand.length>0){
-    var nums=hand.map(function(c){return c.n;});
-    score-=hand.length; disCount+=hand.length;
-    addLog('<span class="pt">−'+hand.length+'</span>　'+T("leftLog")+'：['+nums.join("・")+']');
-    hand=[];tokens=[];
-  }
-  render();
   var r=rankFor(score);
   document.getElementById("endRank").textContent=r[1][lang];
   document.getElementById("endRankAge").textContent=r[2][lang];
