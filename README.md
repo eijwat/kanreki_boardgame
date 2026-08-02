@@ -1,4 +1,4 @@
-# 還暦 KANREKI Boardgame
+# 還暦 KANREKI
 
 **つくって祝う、六十。** — 数字カードで 60 を作りつづける、一人用のお祝い計算パズルゲーム
 
@@ -12,7 +12,7 @@
 
 ### これは何？
 
-「還暦（かんれき）」は、60歳のお祝いをテーマにした一人用のブラウザーゲームです。0〜60 の数字が書かれた 61 枚の山札から配られる手札を、四則演算で **60** にしていきます。
+「還暦（かんれき）」は、60歳のお祝いをテーマにした一人用のブラウザーゲームです。山札は **1〜60** の数字が書かれた **60枚**——還暦の由来である暦（十干×十二支＝六十干支）の、ちょうど一巡りです。配られた手札を四則演算で **60** にしていきます。
 
 ### 遊び方
 
@@ -33,16 +33,16 @@
 | 5枚 | 3倍 | **15点** |
 | パス | — | **−5点** |
 
-### 理論上の最高得点：180点
+### 理論上の最高得点：180点 —— 一枚も余らない完全勝利
 
-0〜60 の 61 枚は、「60 が作れる 5 枚組 × 12 組」＋余り 1 枚に分割できることがプログラムで実証されています。つまり最高効率の 5 枚コンボ（1枚あたり3点）で 60 枚を使い切ると **15点 × 12組 = 180点**。得点ボードにも常に表示されます。
+1〜60 の 60 枚は、「60 が作れる 5 枚組 × **12 組**」に**余りゼロで完全分割**できることがプログラムで実証されています。最高効率の 5 枚コンボ（1枚あたり3点）で全カードを使い切ると **15点 × 12組 = 180点**。山札を一枚残らず使い切って暦が一巡する——まさに「還暦」です。得点ボードにも常に表示されます。
 
-分割例（すべて 60 になります）:
+完全分割の例（12組すべて 60 になります）:
 
 ```
-(35−50) × ((56−37)−23) = 60
-(22+8) ÷ (29÷(41+17)) = 60
-30 × ((60÷3)+(25−43)) = 60   …ほか全12組
+(41+36) − (46−(18+11)) = 60
+20 ÷ (1+(22÷(23−56))) = 60
+(60−(12×25)) ÷ (49−53) = 60   …ほか全12組
 ```
 
 ### 称号
@@ -64,8 +64,8 @@
 
 ### ちょっとした戦略メモ
 
-- 手札の約 **93%** は 60 が作れます。パスする前に、もうひと粘り。
-- 自動プレイのシミュレーションでは、2枚コンボ優先の手堅い戦略で平均約91点、5枚コンボ狙いで平均約97点でした。理論最高の180点までは、まだまだ上達の余地があります。
+- 手札の約 **96%** は 60 が作れます。パスする前に、もうひと粘り。
+- 自動プレイのシミュレーションでは、2枚コンボ優先の手堅い戦略で平均約100点、5枚コンボ狙いの欲張り戦略で平均約108点（最高140点）でした。理論最高の180点までは、まだまだ上達の余地があります。
 - 5枚コンボ（15点）は 2枚コンボ（2点）の 7.5 倍。大きい組み合わせを狙う勇気が高得点への道です。
 
 ### GitHub Pages
@@ -78,7 +78,7 @@
 
 ### What is this?
 
-**KANREKI** (還暦) is a solitaire browser puzzle game themed on the Japanese 60th-birthday celebration. From a 61-card deck numbered **0–60**, keep building arithmetic expressions that equal **60**.
+**KANREKI** (還暦) is a solitaire browser puzzle game themed on the Japanese 60th-birthday celebration. The deck holds **60 cards** numbered **1–60** — exactly one full cycle of the traditional East Asian 60-year calendar, the very origin of the word *kanreki* ("the calendar returns"). Keep building arithmetic expressions that equal **60**.
 
 ### How to play
 
@@ -99,9 +99,9 @@
 | 5 | ×3 | **15** |
 | Pass | — | **−5** |
 
-### Theoretical maximum: 180 points
+### Theoretical maximum: 180 points — a perfect sweep
 
-It has been verified by program that the 61 cards (0–60) can be partitioned into **twelve 5-card groups that each make 60**, with just one card left over. Using all twelve 5-card combos (the most efficient, 3 points per card) yields **15 × 12 = 180 points** — shown on the scoreboard as a reference.
+It has been verified by program that the 60 cards (1–60) can be partitioned into **twelve 5-card groups that each make 60, with no cards left over**. Playing all twelve 5-card combos (the most efficient, 3 points per card) uses every single card and yields **15 × 12 = 180 points**. The whole deck comes full circle — which is exactly what *kanreki* means. The maximum is shown on the scoreboard as a reference.
 
 ### Titles
 
@@ -109,8 +109,8 @@ Your final score earns a Japanese longevity-celebration title. **Exactly 60 poin
 
 ### Strategy notes
 
-- About **93%** of hands can make 60 — think twice before passing.
-- In simulations, a cautious 2-card-first strategy averaged ~91 points and a greedy 5-card-first strategy ~97 points. The 180-point ceiling leaves plenty of room to grow.
+- About **96%** of hands can make 60 — think twice before passing.
+- In simulations, a cautious 2-card-first strategy averaged ~100 points and a greedy 5-card-first strategy ~108 (best: 140). The 180-point ceiling leaves plenty of room to grow.
 - A 5-card combo (15 pts) is worth 7.5 times a 2-card combo (2 pts). Courage pays.
 
 ### GitHub Pages
